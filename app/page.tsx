@@ -1,113 +1,92 @@
-import Image from 'next/image'
+"use client";
 
-export default function Home() {
-  return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <div className="z-10 max-w-5xl w-full items-center justify-between font-mono text-sm lg:flex">
-        <p className="fixed left-0 top-0 flex w-full justify-center border-b border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:static lg:w-auto  lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30">
-          Get started by editing&nbsp;
-          <code className="font-mono font-bold">app/page.tsx</code>
-        </p>
-        <div className="fixed bottom-0 left-0 flex h-48 w-full items-end justify-center bg-gradient-to-t from-white via-white dark:from-black dark:via-black lg:static lg:h-auto lg:w-auto lg:bg-none">
-          <a
-            className="pointer-events-none flex place-items-center gap-2 p-8 lg:pointer-events-auto lg:p-0"
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{' '}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className="dark:invert"
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
-        </div>
-      </div>
+import React, { FormEvent, useRef, useState } from "react";
+import { hero } from "../data";
+// import axios from "axios";
 
-      <div className="relative flex place-items-center before:absolute before:h-[300px] before:w-[480px] before:-translate-x-1/2 before:rounded-full before:bg-gradient-radial before:from-white before:to-transparent before:blur-2xl before:content-[''] after:absolute after:-z-20 after:h-[180px] after:w-[240px] after:translate-x-1/3 after:bg-gradient-conic after:from-sky-200 after:via-blue-200 after:blur-2xl after:content-[''] before:dark:bg-gradient-to-br before:dark:from-transparent before:dark:to-blue-700 before:dark:opacity-10 after:dark:from-sky-900 after:dark:via-[#0141ff] after:dark:opacity-40 before:lg:h-[360px] z-[-1]">
-        <Image
-          className="relative dark:drop-shadow-[0_0_0.3rem_#ffffff70] dark:invert"
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
-      </div>
+import { InboxOutlined } from "@ant-design/icons";
+import type { UploadProps } from "antd";
+import { message, Upload } from "antd";
 
-      <div className="mb-32 grid text-center lg:max-w-5xl lg:w-full lg:mb-0 lg:grid-cols-4 lg:text-left">
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Docs{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Find in-depth information about Next.js features and API.
-          </p>
-        </a>
+const { Dragger } = Upload;
 
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Learn{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Learn about Next.js in an interactive course with&nbsp;quizzes!
-          </p>
-        </a>
+const props: UploadProps = {
+	name: "file",
+	multiple: false,
+	accept: ".jpeg,.jpg,.png,.heic,.svg,.raw",
+	action: "https://run.mocky.io/v3/435e224c-44fb-4773-9faf-380c5e6a2188",
+	onChange(info) {
+		console.log(info.file);
+		const { status } = info.file;
+		if (status !== "uploading") {
+			console.log(info.file, info.fileList);
+		}
+		if (status === "done") {
+			message.success(`${info.file.name} file uploaded successfully.`);
+		} else if (status === "error") {
+			message.error(`${info.file.name} file upload failed.`);
+		}
+	},
+	onDrop(e) {
+		console.log("Dropped files", e.dataTransfer.files);
+	},
+};
 
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Templates{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Explore starter templates for Next.js.
-          </p>
-        </a>
+const Hero: React.FC = () => {
+	const { title, subtitle } = hero;
+	const [style, setStyle] = useState("");
+	const handleSubmit = async (event: FormEvent) => {
+		event.preventDefault();
+	};
+	return (
+		<section className={`hero-section`}>
+			<div
+				className={`flex flex-col items-center gap-[1rem] mx-auto text-center
+                    px-5
+                    py-5
+                    sm:p-10
+                    lg:py-25`}>
+				<h1 className="text-[2rem] leading-8 tracking-tight drop-shadow-2xl mx-auto font-semibold mb[30px] sm:text-[2.5rem] lg:text-[3rem] lg:leading-tight lg:max-w-[888px] sm:leading-[2.75rem]">
+					{title}
+				</h1>
+				<h2 className="mb-[30px] tracking-wider drop-shadow-2xl max-w-[627px] mx-auto lg:bg-[65px] lg:text-xl text-gray-500">
+					{subtitle}
+				</h2>
+				<form
+					className={`flex gap-1 justify-between p-2 w-full max-w-[400px] border-2 border-gray-700 rounded-md`}>
+					<input
+						className="bg-transparent font-inherit tracking-wider w-full text-white grow text-base focus:outline-none px-4"
+						type="text"
+						placeholder="Enter Style"
+						value={style}
+						onChange={(e) => {
+							setStyle(e.target.value);
+						}}
+					/>
+					<button
+						className="bg-[#7b2cbf] font-inherit tracking-wider flex justify-center text-white max-w-[12rem] hover:bg-gray-500 px-4 py-2 text-md font-semibold rounded-md transition "
+						onClick={handleSubmit}>
+						Submit
+					</button>
+				</form>
+				<div className="file-upload">
+					<Dragger {...props}>
+						<p className="ant-upload-drag-icon">
+							<InboxOutlined style={{ color: "#7b2cbf" }} />
+						</p>
+						<p className="text-center text-xl font-semibold mx-5 text-white">
+							Double click or drag file to this area to upload
+						</p>
+						<p className="text-center text-sm mx-5 text-gray-500">
+							Support for a single or bulk upload. Strictly
+							prohibited from uploading company data or other
+							banned files.
+						</p>
+					</Dragger>
+				</div>
+			</div>
+		</section>
+	);
+};
 
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Deploy{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
-    </main>
-  )
-}
+export default Hero;
