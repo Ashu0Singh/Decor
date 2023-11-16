@@ -2,60 +2,103 @@
 
 import React, { FormEvent, useRef, useState } from "react";
 import { hero } from "../data";
+import Image from "next/image";
 // import axios from "axios";
 
 import { InboxOutlined } from "@ant-design/icons";
 import type { UploadProps } from "antd";
-import { message, Upload } from "antd";
+import { ConfigProvider, message, Upload } from "antd";
+import axios from "axios";
+import theme from "@/theme/*";
+import { getSuggestions } from "@/lib/actions";
+import toast from "react-hot-toast";
 
 const { Dragger } = Upload;
-
-const props: UploadProps = {
-	name: "file",
-	multiple: false,
-	accept: ".jpeg,.jpg,.png,.heic,.svg,.raw",
-	action: "https://run.mocky.io/v3/435e224c-44fb-4773-9faf-380c5e6a2188",
-	onChange(info) {
-		console.log(info.file);
-		const { status } = info.file;
-		if (status !== "uploading") {
-			console.log(info.file, info.fileList);
-		}
-		if (status === "done") {
-			message.success(`${info.file.name} file uploaded successfully.`);
-		} else if (status === "error") {
-			message.error(`${info.file.name} file upload failed.`);
-		}
-	},
-	onDrop(e) {
-		console.log("Dropped files", e.dataTransfer.files);
-	},
-};
 
 const Hero: React.FC = () => {
 	const { title, subtitle } = hero;
 	const [style, setStyle] = useState("");
+	const [imageURL, setImageURl] = useState();
+
+	const handleUpload = async (options: any) => {
+		const { onSuccess, onError, file, onProgress } = options;
+		const formData = new FormData();
+		formData.append("file", file);
+
+		const config = {
+			headers: { "content-type": "multipart/form-data" },
+			onUploadProgress: (event: any) => {
+				const percent = Math.floor((event.loaded / event.total) * 100);
+				onProgress({ percent: (event.loaded / event.total) * 100 });
+			},
+		};
+
+		try {
+			const response = await axios.post(
+				"http://localhost:3000/api/s3-upload",
+				formData,
+				config
+			);
+			setImageURl(response.data.url);
+			onSuccess("Ok");
+		} catch (error) {
+			onError({ error });
+		}
+	};
+
+	const props: UploadProps = {
+		name: "file",
+		multiple: false,
+		maxCount: 1,
+		accept: ".jpeg,.jpg,.png",
+		customRequest: handleUpload,
+	};
+
 	const handleSubmit = async (event: FormEvent) => {
 		event.preventDefault();
+		if (imageURL) {
+			await getSuggestions({ style, imageURL });
+		} else {
+			toast.error("Upload the image");
+		}
 	};
 	return (
 		<section className={`hero-section`}>
 			<div
 				className={`flex flex-col items-center gap-[1rem] mx-auto text-center
                     px-5
-                    py-5
+                    py-10
                     sm:p-10
                     lg:py-25`}>
-				<h1 className="text-[2rem] leading-8 tracking-tight drop-shadow-2xl mx-auto font-semibold mb[30px] sm:text-[2.5rem] lg:text-[3rem] lg:leading-tight lg:max-w-[888px] sm:leading-[2.75rem]">
+				<h1 className="text-[2rem] leading-9 tracking-tight mx-auto font-semibold mt-[1rem] mb[30px] sm:text-[2.5rem] lg:text-[3rem] lg:max-w-[800px] sm:leading-[3rem]">
 					{title}
 				</h1>
 				<h2 className="mb-[30px] tracking-wider drop-shadow-2xl max-w-[627px] mx-auto lg:bg-[65px] lg:text-xl text-gray-500">
 					{subtitle}
 				</h2>
+
+				<div className="file-upload">
+					<ConfigProvider theme={theme}>
+						<Dragger {...props}>
+							<p className="ant-upload-drag-icon">
+								<InboxOutlined style={{ color: "#7b2cbf" }} />
+							</p>
+							<p className="text-center text-xl font-semibold mx-5 text-white">
+								Double click or drag file to this area to upload
+							</p>
+							<p className="text-center text-sm mx-5 text-gray-500">
+								Support for a single or bulk upload. Strictly
+								prohibited from uploading company data or other
+								banned files.
+							</p>
+						</Dragger>
+					</ConfigProvider>
+				</div>
 				<form
-					className={`flex gap-1 justify-between p-2 w-full max-w-[400px] border-2 border-gray-700 rounded-md`}>
+					className={`input-container p-1`}
+					onSubmit={handleSubmit}>
 					<input
-						className="bg-transparent font-inherit tracking-wider w-full text-white grow text-base focus:outline-none px-4"
+						className="form-input"
 						type="text"
 						placeholder="Enter Style"
 						value={style}
@@ -64,27 +107,15 @@ const Hero: React.FC = () => {
 						}}
 					/>
 					<button
-						className="bg-[#7b2cbf] font-inherit tracking-wider flex justify-center text-white max-w-[12rem] hover:bg-gray-500 px-4 py-2 text-md font-semibold rounded-md transition "
-						onClick={handleSubmit}>
+						type="submit"
+						className="bg-[#7b2cbf] font-inherit tracking-wider flex justify-center text-white max-w-[12rem] hover:bg-gray-500 px-6 py-2 text-sm font-semibold rounded-md transition">
 						Submit
 					</button>
 				</form>
-				<div className="file-upload">
-					<Dragger {...props}>
-						<p className="ant-upload-drag-icon">
-							<InboxOutlined style={{ color: "#7b2cbf" }} />
-						</p>
-						<p className="text-center text-xl font-semibold mx-5 text-white">
-							Double click or drag file to this area to upload
-						</p>
-						<p className="text-center text-sm mx-5 text-gray-500">
-							Support for a single or bulk upload. Strictly
-							prohibited from uploading company data or other
-							banned files.
-						</p>
-					</Dragger>
-				</div>
 			</div>
+			{/* {imageURL && <div className="w-full max-w-[500px] h-full overflow-hidden border-2 border-slate-600 rounded-md">
+                <img src={imageURL} alt="Uploaded data"/>
+            </div>} */}
 		</section>
 	);
 };

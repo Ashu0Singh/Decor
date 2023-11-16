@@ -15,13 +15,11 @@ const Header = () => {
 			return window.scrollY > 50 ? setBg(true) : setBg(false);
 		});
 	});
-
-	console.log(mobileNav);
 	return (
 		<header
 			className={`${
 				bg ? `bg-primary py-4 lg:py-6` : "bg-none"
-			}fixed h-[10vh] left-0 w-full py-8 px-3 z-10`}>
+			} fixed h-[10vh] left-0 w-full backdrop-filter backdrop-blur-lg py-8 px-3 z-10`}>
 			<div className="container font-semibold mx-auto flex justify-between items-center">
 				<div>
 					<a href="#home" className="text-white text-2xl">
@@ -49,7 +47,7 @@ const Header = () => {
 					</ul>
 				</nav>
 			</div>
-			<div className={`${mobileNav ? "left-0" : "-left-[100%]"} z-20 transition-all duration-200 absolute w-full h-full`}>
+			<div className={`${mobileNav ? "left-0" : "-left-[100%]"} z-20 transition-all duration-200 fixed w-full h-[90vh]`}>
 				<NavMobile />
 			</div>
 		</header>

@@ -30,9 +30,17 @@ body {
 }
 
 .hero-section {
-	@apply flex flex-col items-center justify-center w-full text-white relative p-2;
+	@apply flex flex-col py-[4rem] sm:py-[6rem] items-center justify-center w-full text-white relative ;
 }
 
 .file-upload {
 	@apply w-full max-w-[400px] font-sans;
+}
+
+.input-container{
+    @apply flex gap-1 justify-between w-full max-w-[400px] border-2 border-gray-700 rounded-md
+}
+
+.form-input{
+    @apply text-sm bg-transparent tracking-wider w-full text-white grow focus:outline-none px-4;
 }
