@@ -2,6 +2,8 @@
 import React, { FormEvent, useState } from "react";
 import { LockOutlined, MailOutlined, UserOutlined } from "@ant-design/icons";
 import Link from "next/link";
+import axios from "axios";
+import { useRouter } from "next/navigation";
 
 const SignUp = () => {
 	const [userData, setUserData] = useState({
@@ -9,6 +11,9 @@ const SignUp = () => {
 		password: "",
 		fullname: "",
 	});
+	const router = useRouter();
+
+	const [error, setError] = useState("");
 
 	const onChangeEmail = (event: any) => {
 		setUserData((prev) => ({ ...prev, email: event.target.value }));
@@ -22,9 +27,30 @@ const SignUp = () => {
 		setUserData((prev) => ({ ...prev, fullname: event.target.value }));
 	};
 
-	const handleSubmit = (e: FormEvent) => {
+	const isValidEmail = (email: string) => {
+		const emailRegex = /^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+$/i;
+		return emailRegex.test(email);
+	};
+
+	const handleSubmit = async (e: FormEvent) => {
 		e.preventDefault();
-		console.log(userData);
+		if (!isValidEmail(userData.email))
+			return setError("* Enter a valid email");
+		if (userData.email === "") return setError("* Email required");
+		if (userData.fullname === "") return setError("* Fullname required");
+		if (userData.password === "") return setError("* Password required");
+		if (userData.password.length <= 8)
+			return setError("* Password should be greater than 8 characters");
+
+		try {
+			setError("");
+			await axios.post("http://localhost:3000/api/register", {
+				...userData,
+			});
+			router.push("/profile/login");
+		} catch (error: any) {
+			if (error.response.status === 400) setError(error.response.data);
+		}
 	};
 	return (
 		<div className="h-full mx-auto max-w-[350px] flex flex-col justify-center items-center text-white">
@@ -48,7 +74,7 @@ const SignUp = () => {
 						style={{ color: "#6b7280", fontSize: "1.2rem" }}
 					/>
 					<input
-						type="email"
+						type="text"
 						className="form-input"
 						placeholder="Email"
 						value={userData.email}
@@ -68,7 +94,7 @@ const SignUp = () => {
 					/>
 				</div>
 				<div className="flex px-2 text-sm flex-row text-gray-500 justify-between">
-					Forgot Password ?
+					<span className="text-sm text-red-500">{error}</span>
 				</div>
 				<button
 					type="submit"
