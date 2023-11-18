@@ -1,13 +1,13 @@
 import Users from "@/lib/models/User";
-import { connectToDb } from "@/lib/mongoose";
+import { connectToDb } from "@/utils/mongoose";
 import { NextRequest, NextResponse } from "next/server";
 import bcrypt from "bcryptjs";
 
 export async function POST(req: NextRequest) {
-    const { fullname, email, password } = await req.json();
-    
-    try {
-        console.log(fullname, email, password);
+	const { fullname, email, password } = await req.json();
+
+	try {
+		console.log(fullname, email, password);
 		await connectToDb();
 
 		const existingUser = await Users.findOne({ email });
@@ -26,7 +26,9 @@ export async function POST(req: NextRequest) {
 
 		return new NextResponse("User is registered", { status: 200 });
 	} catch (error: any) {
-        console.error(`Unable to register user : ${error.message}`);
-        return new NextResponse(`User is registered : ${error.message}`, { status: 500 });
+		console.error(`Unable to register user : ${error.message}`);
+		return new NextResponse(`User is registered : ${error.message}`, {
+			status: 500,
+		});
 	}
 }
