@@ -5,16 +5,13 @@ import {
 	IoLogoInstagram,
 	IoLogoYoutube,
 } from "react-icons/io";
-import Features1Img from "./assets/img/features-1.png";
-import Features2Img from "./assets/img/features-2.png";
 
 type Features = {
-	image: any;
 	title: string;
 	subtitle: string;
 	buttonText: string;
 	items: Array<{ icon: any; title: string; subtitle: string }>;
-	feature2: { image: any; title: string; subtitle: string };
+	feature2: { title: string; subtitle: string };
 };
 
 export const navigation = [
@@ -44,7 +41,6 @@ export const hero = {
 };
 
 export const features: Features = {
-	image: Features1Img,
 	title: "We make your home more aesthetic",
 	subtitle:
 		"Our Home Decor AI offers powerful AI-powered Interior Decor Suggestions",
@@ -64,7 +60,6 @@ export const features: Features = {
 		},
 	],
 	feature2: {
-		image: Features2Img,
 		title: "The Best Interior decorator of your choice",
 		subtitle:
 			"Our AI Tool Home Decor offers a versatile AI-powered Interior Decor System",
