@@ -1,9 +1,9 @@
 "use client";
-import React, { FormEvent, useState } from "react";
+import React, { FormEvent, useEffect, useState } from "react";
 import { LockOutlined, MailOutlined } from "@ant-design/icons";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import axios from "axios";
+import { signIn, useSession } from "next-auth/react";
 
 const Login = () => {
 	const [userData, setUserData] = useState({ email: "", password: "" });
@@ -11,6 +11,15 @@ const Login = () => {
 	const router = useRouter();
 
 	const [error, setError] = useState("");
+
+	const { data, status } = useSession();
+
+	useEffect(() => {
+		if (status === "authenticated") {
+			router.replace("/profile");
+			return;
+		}
+	}, [status]);
 
 	const onChangeEmail = (event: any) => {
 		setUserData((prev) => ({ ...prev, email: event.target.value }));
@@ -36,9 +45,18 @@ const Login = () => {
 
 		try {
 			setError("");
-			await axios.post("http://localhost:3000/api/register", {
-				...userData,
-			});
+
+			const res = await signIn("credentials", {
+				redirect: false,
+				email: userData.email,
+				password: userData.password
+			})
+
+			if (res?.error) return setError(res?.error);
+			if (res?.ok) {
+				setError("");
+				return router.push("/profile");
+			}
 			router.push("/profile/login");
 		} catch (error: any) {
 			if (error.response.status === 400) setError(error.response.data);

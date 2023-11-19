@@ -19,20 +19,20 @@ type Features = {
 
 export const navigation = [
 	{
-		name: "home",
-		href: "",
+		name: "DecorAi",
+		href: "/decorAi",
 	},
 	{
-		name: "about",
-		href: "",
+		name: "Home",
+		href: "/",
 	},
 	{
 		name: "features",
 		href: "",
 	},
 	{
-		name: "contact",
-		href: "",
+		name: "Profile",
+		href: "/profile",
 	},
 ];
 

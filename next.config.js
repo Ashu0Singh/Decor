@@ -1,4 +1,8 @@
 /** @type {import('next').NextConfig} */
-const nextConfig = {}
 
-module.exports = nextConfig
+module.exports = {
+	plugins: [require("@tailwindcss/line-clamp")],
+	experimental: {
+		serverComponentsExternalPackages: ["mongoose"],
+	},
+};

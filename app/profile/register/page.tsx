@@ -1,9 +1,10 @@
 "use client";
-import React, { FormEvent, useState } from "react";
+import React, { FormEvent, useEffect, useState } from "react";
 import { LockOutlined, MailOutlined, UserOutlined } from "@ant-design/icons";
 import Link from "next/link";
 import axios from "axios";
 import { useRouter } from "next/navigation";
+import { useSession } from "next-auth/react";
 
 const SignUp = () => {
 	const [userData, setUserData] = useState({
@@ -14,6 +15,15 @@ const SignUp = () => {
 	const router = useRouter();
 
 	const [error, setError] = useState("");
+
+	const { data, status } = useSession();
+
+	useEffect(() => {
+		if (status === "authenticated") {
+			router.replace("/profile");
+			return;
+		}
+	}, [status]);
 
 	const onChangeEmail = (event: any) => {
 		setUserData((prev) => ({ ...prev, email: event.target.value }));

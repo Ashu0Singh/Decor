@@ -57,7 +57,7 @@ const Hero: React.FC = () => {
 	const handleSubmit = async (event: FormEvent) => {
 		event.preventDefault();
 		if (imageURL) {
-			await getSuggestions({ style, imageURL });
+			// await getSuggestions({ style, imageURL,email : "ashusingh@gmail.com" });
 		} else {
 			toast.error("Upload the image");
 		}

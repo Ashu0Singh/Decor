@@ -2,9 +2,11 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import Users from "@/lib/models/User";
 import { connectToDb } from "@/utils/mongoose";
 import bcrypt from "bcrypt";
+import NextAuth from "next-auth/next";
 
 export const authOptions: any = {
-	provider: [
+	secret:process.env.NEXTAUTH_SECRET,
+	providers: [
 		CredentialsProvider({
 			id: "credentials",
 			name: "Credentials",
@@ -24,9 +26,13 @@ export const authOptions: any = {
 					);
 					if (isPasswordCorrect) return user;
 				} catch (error: any) {
-					console.log(error.message);
+					throw new Error(error);
 				}
 			},
 		}),
 	],
 };
+
+const handler = NextAuth(authOptions)
+
+export { handler as GET, handler as POST }
