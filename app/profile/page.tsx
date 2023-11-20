@@ -75,7 +75,7 @@ const RenderUserData = (props: any) => {
 			</div>
 			<div className="flex flex-row w-fit justify-evenly flex-wrap gap-8">
 				{
-					props.suggestions?.map((suggestion: any) => <ProductCard key={suggestion.inputImage} suggestion={suggestion}/>)
+					props.suggestions?.map((suggestion: any) => { console.log(suggestion);  return <ProductCard key={suggestion.inputImage} suggestion={suggestion} /> })
 				}
 			</div>
 		</div>

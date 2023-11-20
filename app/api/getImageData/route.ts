@@ -5,24 +5,31 @@ import { NextRequest, NextResponse } from "next/server";
 type UserData =
 	| {
 			fullname: String;
-			getSuggestions: Array<{
+			generatedSuggestions: Array<{
+				_id: string;
 				inputImage: String;
 				inputStyle: String;
 				outputImage: String;
 				outputSuggestions: String;
 			}>;
 	  }
-	| undefined;
+	| undefined
+	| null;
 
 export async function POST(req: NextRequest) {
-	const { email } = await req.json();
+	const { email, imageId } = await req.json();
 	connectToDb();
 	try {
-		const userData = await Users.findOne(
+		const userData: UserData = await Users.findOne(
 			{ email: email },
-			{ generatedSuggestions: 1, fullname: 1 }
+			{ generatedSuggestions: 1 }
 		);
-		return NextResponse.json(userData);
+		const ImageData = await userData?.generatedSuggestions?.filter(
+			(ImageData) => {
+				return ImageData._id.valueOf() === imageId;
+			}
+		);
+		return NextResponse.json(ImageData);
 	} catch (error: any) {
 		console.log(`Unable to fetch userdata : ${error.message}`);
 	}
