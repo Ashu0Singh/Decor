@@ -24,7 +24,7 @@ const Header = () => {
 		<header
 			className={`${
 				bg ? `bg-primary py-4 lg:py-6` : "bg-none"
-			} fixed h-[10vh] left-0 w-full backdrop-filter backdrop-blur-lg py-8 px-3 z-10`}>
+			} fixed h-[10vh] left-0 w-full backdrop-filter backdrop-blur-lg py-8 px-3 z-30`}>
 			<div className="container font-semibold mx-auto flex justify-between items-center">
 				<div>
 					<Link href="/" className="text-white text-2xl">
@@ -64,7 +64,7 @@ const Header = () => {
 			<div
 				className={`${
 					mobileNav ? "left-0" : "-left-[100%]"
-				} z-20 transition-all duration-200 fixed w-full h-[90vh]`}>
+				} z-40 transition-all duration-200 fixed w-full h-[90vh]`}>
 				<NavMobile />
 			</div>
 		</header>

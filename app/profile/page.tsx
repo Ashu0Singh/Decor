@@ -8,6 +8,7 @@ import { ConfigProvider, Spin } from "antd";
 import theme from "@/theme/*";
 import { signOut } from "next-auth/react";
 import ProductCard from "@/components/ProductCard";
+import LoadingState from "@/components/LoadingState";
 
 const Profile = () => {
 	const { data, status } = useSession();
@@ -15,6 +16,7 @@ const Profile = () => {
 		fullname: "",
 		generatedSuggestions: [],
 	});
+	const [isLoading, setIsLoading] = useState(true);
 
 	const router = useRouter();
 
@@ -30,14 +32,15 @@ const Profile = () => {
 		console.log(response?.data);
 		setUserData(response?.data);
 	};
-
 	useEffect(() => {
 		if (status === "unauthenticated") {
 			router.replace("/profile/login");
 			return;
 		} else if (status === "authenticated") {
 			getUserData();
+			setIsLoading(false);
 		}
+		else setIsLoading(true);
 	}, [status]);
 
 	return (
@@ -49,12 +52,7 @@ const Profile = () => {
 					suggestions={userData?.generatedSuggestions}
 				/>
 			) : (
-				<ConfigProvider theme={theme}>
-					<div className="flex flex-col gap-3 text-slate-600">
-						<Spin size="large" />
-						Loading
-					</div>
-				</ConfigProvider>
+				<LoadingState text="Loading" isLoading={isLoading}/>
 			)}
 		</div>
 	);
