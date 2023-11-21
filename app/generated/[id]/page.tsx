@@ -34,9 +34,7 @@ const GeneratedSuggestion = ({ params: { id } }: Props) => {
 
 	const getImageData = async () => {
 		const response = await axios.post(
-			`${
-				process.env.NEXT_PUBLIC_API || "http://localhost:3000"
-			}/api/getImageData`,
+			`${process.env.NEXT_PUBLIC_HOST_URL || "http://localhost:3000"}/api/getImageData`,
 			{
 				email: data?.user?.email,
 				imageId: id,

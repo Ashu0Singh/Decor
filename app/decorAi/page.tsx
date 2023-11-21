@@ -76,7 +76,7 @@ const Hero: React.FC = () => {
 		if (imageURL) {
 			setIsLoading(true);
 			const getImage = await axios.post(
-				`http://localhost:3000/api/getSuggestions`,
+				`${process.env.NEXT_PUBLIC_HOST_URL || "http://localhost:3000"}/api/getSuggestions`,
 				{
 					imageURL: imageURL,
 					style: style,

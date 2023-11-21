@@ -54,7 +54,7 @@ const SignUp = () => {
 
 		try {
 			setError("");
-			await axios.post("http://localhost:3000/api/register", {
+			await axios.post(`${process.env.NEXT_PUBLIC_HOST_URL || "http://localhost:3000"}/api/register`, {
 				...userData,
 			});
 			router.push("/profile/login");
