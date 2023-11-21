@@ -8,7 +8,7 @@ export async function POST(req: NextRequest) {
 
 	connectToDb();
 	try {
-		const res = await axios.post(`http://34.100.254.160/getSuggestions`, {
+		const res = await axios.post(`${process.env.NEXT_PUBLIC_SERVER_IP}/getSuggestions`, {
 			imageURL: imageURL,
 			style: style,
 		});
