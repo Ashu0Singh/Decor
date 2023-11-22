@@ -6,7 +6,6 @@ import { navigation } from "../data";
 import NavMobile from "./NavMobile";
 import Link from "next/link";
 import { signOut, useSession } from "next-auth/react";
-import { useRouter } from "next/navigation";
 
 const Header = () => {
 	const [bg, setBg] = useState(false);

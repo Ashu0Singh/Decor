@@ -45,17 +45,16 @@ const Login = () => {
 
 		try {
 			setError("");
-
 			const res = await signIn("credentials", {
 				redirect: false,
 				email: userData.email,
 				password: userData.password
 			})
 
-			if (res?.error) return setError(res?.error);
+			if (res?.error) return setError("User does not exits");
 			if (res?.ok) {
 				setError("");
-				return router.push("/profile");
+				return (router.back());
 			}
 			router.push("/profile/login");
 		} catch (error: any) {

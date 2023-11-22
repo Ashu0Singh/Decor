@@ -13,7 +13,6 @@ import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
 import LoadingState from "@/components/LoadingState";
-import { revalidatePath } from "next/cache";
 
 const { Dragger } = Upload;
 
@@ -52,7 +51,9 @@ const Hero: React.FC = () => {
 
 		try {
 			const response = await axios.post(
-				"http://localhost:3000/api/s3-upload",
+				`${
+					process.env.NEXT_PUBLIC_HOST_URL || "http://localhost:3000"
+				}/api/s3-upload`,
 				formData,
 				config
 			);
