@@ -79,7 +79,7 @@ const RenderUserData = (props: any) => {
 				) : (
 					<div className="w-[85vw] flex flex-col justify-center items-center">
 						<div className="flex flex-col items-center gap-2">
-							<p className="text-sm tracking-wider font-medium drop-shadow-2xl max-w-[400px] lg:bg-[65px] lg:text-lg text-gray-500">You haven't generated anything yet</p>
+							<p className="text-sm tracking-wider font-medium drop-shadow-2xl max-w-[400px] lg:bg-[65px] lg:text-lg text-gray-500">You haven&apos;t generated anything yet</p>
 							<Link href={"/decorAi"}>
 								<button className="bg-[#7b2cbf] text-sm lg:text-md px-6 py-3 rounded-md hover:bg-[#7b2cbf]/50 tracking-wider">
 									Get Started
