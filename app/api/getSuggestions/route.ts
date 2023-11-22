@@ -23,7 +23,6 @@ export async function POST(req: NextRequest) {
 		const generation = user.generatedSuggestions?.push(data);
 		const id = user.generatedSuggestions?.[generation - 1]?._id;
 		user.save();
-		console.log(id);
 		return new NextResponse(id, { status: 200 });
 	} catch (error: any) {
 		console.log(error.message);

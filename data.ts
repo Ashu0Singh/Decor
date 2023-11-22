@@ -24,10 +24,6 @@ export const navigation = [
 		href: "/",
 	},
 	{
-		name: "features",
-		href: "",
-	},
-	{
 		name: "Profile",
 		href: "/profile",
 	},

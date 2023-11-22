@@ -1,4 +1,5 @@
 "use client";
+import LoadingState from "@/components/LoadingState";
 import axios from "axios";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
@@ -21,6 +22,8 @@ const GeneratedSuggestion = ({ params: { id } }: Props) => {
 		},
 	]);
 
+	const [isLoading, setIsLoading] = useState(true);
+
 	const [isInputImage, setIsInputImage] = useState(false);
 
 	function textToArray(text: string) {
@@ -40,6 +43,7 @@ const GeneratedSuggestion = ({ params: { id } }: Props) => {
 				imageId: id,
 			}
 		);
+		setIsLoading(false);
 		setImageData(response?.data);
 	};
 
@@ -54,6 +58,7 @@ const GeneratedSuggestion = ({ params: { id } }: Props) => {
 
 	return (
 		<div className="container mx-auto pt-[10vh] h-max lg:h-full flex flex-col">
+			<LoadingState text="Loading" isLoading={isLoading} />
 			<h1 className="text-[2rem] py-3 lg:py-5 text-slate-100 tracking-tight font-semibold lg:mt-[1rem] mb[1.5rem] sm:text-[2.5rem]">Generated
 			<span className="text-[#7b2cbf]"> Suggestion</span></h1>
 			<div className="text-white lg:pt-10 flex justify-center items-center gap-4 lg:gap-10 flex-wrap">
