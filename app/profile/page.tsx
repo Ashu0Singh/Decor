@@ -21,7 +21,7 @@ const Profile = () => {
 	const getUserData = async () => {
 		const response = await axios.post(
 			`${
-				process.env.NEXT_PUBLIC_API || "http://localhost:3000"
+				process.env.NEXT_PUBLIC_HOST_URL || "http://localhost:3000"
 			}/api/getUserData`,
 			{
 				email: data?.user?.email,
