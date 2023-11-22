@@ -26,7 +26,7 @@ const Hero: React.FC = () => {
 
 	const router = useRouter();
 
-	const { data , status } = useSession();
+	const { data, status } = useSession();
 
 	useEffect(() => {
 		if (status === "unauthenticated") {
@@ -75,17 +75,27 @@ const Hero: React.FC = () => {
 		event.preventDefault();
 		if (imageURL) {
 			setIsLoading(true);
-			const getImage = await axios.post(
-				`${process.env.NEXT_PUBLIC_HOST_URL || "http://localhost:3000"}/api/getSuggestions`,
-				{
-					imageURL: imageURL,
-					style: style,
-					email: data?.user?.email
-				}
-			);
-			console.log(getImage.data);
-			setIsLoading(false);
-			router.push(`/generated/${getImage.data}`);
+			try {
+				const getImage = await axios.post(
+					`${
+						process.env.NEXT_PUBLIC_HOST_URL ||
+						"http://localhost:3000"
+					}/api/getSuggestions`,
+					{
+						imageURL: imageURL,
+						style: style,
+						email: data?.user?.email,
+					}
+				);
+				// await revalidatePath(`/generated/${getImage.data}`);
+				router.push(`/generated/${getImage.data}`);
+				setIsLoading(false);
+			} catch (error) {
+				setIsLoading(false);
+				toast.error(
+					"Please try using a image or smaller size and valid prompts"
+				);
+			}
 		} else {
 			toast.error("Upload the image");
 		}

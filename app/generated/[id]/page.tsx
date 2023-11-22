@@ -40,7 +40,6 @@ const GeneratedSuggestion = ({ params: { id } }: Props) => {
 				imageId: id,
 			}
 		);
-		console.log(response?.data);
 		setImageData(response?.data);
 	};
 
