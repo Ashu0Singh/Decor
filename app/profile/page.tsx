@@ -32,6 +32,7 @@ const Profile = () => {
 	useEffect(() => {
 		if (status === "unauthenticated") {
 			router.replace("/profile/login");
+			setIsLoading(false);
 			return;
 		} else if (status === "authenticated") {
 			getUserData();
@@ -67,7 +68,7 @@ const RenderUserData = (props: any) => {
 				</h2>
 			</div>
 			<div className="flex flex-row h-full w-fit justify-evenly flex-wrap gap-8">
-				{props.suggestions ? (
+				{props.suggestions.length > 0 ? (
 					props.suggestions?.map((suggestion: any) => {
 						return (
 							<ProductCard
