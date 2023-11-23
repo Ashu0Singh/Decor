@@ -17,9 +17,9 @@ const Home: React.FC = () => {
 						Get Started
 					</button>
 				</Link>
-				<Link href={"/features"}>
+				<Link href={"/profile"}>
 					<button className="outline outline-[#7b2cbf] text-sm lg:text-md px-6 py-3 rounded-md hover:bg-[#7b2cbf]/50 tracking-wider">
-						Learn More
+						Profile
 					</button>
 				</Link>
 			</div>

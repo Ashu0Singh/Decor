@@ -1,6 +1,6 @@
 import { ConfigProvider, Spin } from "antd";
 import { LoadingOutlined } from "@ant-design/icons";
-import theme from "@/theme/*";
+import theme from "@/theme/index";
 
 type Props = {
 	text: string;

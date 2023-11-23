@@ -8,7 +8,7 @@ import { InboxOutlined } from "@ant-design/icons";
 import type { UploadProps } from "antd";
 import { ConfigProvider, Upload } from "antd";
 import axios from "axios";
-import theme from "@/theme/*";
+import theme from "@/theme/index";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
