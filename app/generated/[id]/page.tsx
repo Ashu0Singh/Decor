@@ -79,7 +79,7 @@ const GeneratedSuggestion = ({ params: { id } }: Props) => {
 						/>
 					)}
 				</div>
-				<div className="max-w-[500px] h-full lg:max-h-[400px] overflow-scroll flex flex-col gap-2">
+				<div className="max-w-[500px] h-full lg:max-h-[400px] overflow-scroll flex flex-col gap-2 no-scrollbar">
 					{suggestions.map((suggestion) => (
 						<div key={suggestion} className="bg-[#7b2cbf]/20 px-3 py-4 rounded-md tracking-wider drop-shadow-2xl lg:text-md text-gray-300">{suggestion}</div>
 					))}
