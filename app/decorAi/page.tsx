@@ -2,7 +2,6 @@
 
 import React, { FormEvent, useEffect, useState } from "react";
 import { hero } from "../../data";
-// import axios from "axios";
 
 import { InboxOutlined } from "@ant-design/icons";
 import type { UploadProps } from "antd";
