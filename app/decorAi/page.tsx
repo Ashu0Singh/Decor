@@ -102,7 +102,7 @@ const Hero: React.FC = () => {
 	};
 	return (
 		<section className={`hero-section`}>
-			<LoadingState text="Loading" isLoading={isLoading} />
+			<LoadingState text="It might take a minute or two" isLoading={isLoading} />
 			<div
 				className={`flex flex-col items-center gap-[1rem] mx-auto text-center
                     px-5
